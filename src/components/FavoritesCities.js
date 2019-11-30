@@ -15,7 +15,7 @@ console.log(favoritesCities);
      <ul className="ulFavoritesCities">
       
         {favoritesCities.map((cityFav, i)=>
-<li ><span>{cityFav.cityEnglishName}</span>{cityFav.cityChineseName} 
+<li kei={i}><span>{cityFav.cityEnglishName}</span>{cityFav.cityChineseName} 
          <button type="text" onClick={handleClearFav} className={cityFav} id={i}>x</button></li>)} 
         
      </ul>

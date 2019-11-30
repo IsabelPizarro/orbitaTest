@@ -17,7 +17,8 @@ class App extends Component {
       cities: [],
       city: [],
       value:"",
-      favoritesCities:[]
+      favoritesCities:[],
+      defaultChecked:false
       
      };
 this.getCities=this.getCities.bind(this);
@@ -25,8 +26,9 @@ this.getCities=this.getCities.bind(this);
 this.handleFilter=this.handleFilter.bind(this);
 this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
-this.selectAll=this.selectAll.bind(this);
-this.selectNothing=this.selectNothing.bind(this);
+// this.selectAll=this.selectAll.bind(this);
+// this.selectNothing=this.selectNothing.bind(this);
+// this.renderfavsInRight=this.renderfavsInRight.bind(this);s
     
     }
 
@@ -58,25 +60,38 @@ this.selectNothing=this.selectNothing.bind(this);
 
 
     
-    handleInputFavs (event){
-//estatus cambiar a true
+    handleInputFavs (){
+       let target=event.target;
+     if ( target.type === 'checkbox' ? target.checked : target.value){
       let englishandchinese={
         cityChineseName:event.target.id,
         cityEnglishName:event.target.value
       }
       this.state.favoritesCities.push(englishandchinese);
+//otra funcion
+this.setState( {
+          
+  favoritesCities: this.state.favoritesCities
 
-       this.setState( {
-          
-            favoritesCities: this.state.favoritesCities
-          
-        });
+});
+
+     }
+     else {
+       this.handleClearFav(event)
+     }
+  
+
+ 
+
+ 
+    
       
         
     }
     handleClearFav(event){
       console.log(event.target.id);
       const todelete=event.target.id;
+      //otra funcion
       this.state.favoritesCities.splice(todelete,1);
       this.setState( {
           
@@ -88,27 +103,28 @@ this.selectNothing=this.selectNothing.bind(this);
     }
     
     
-     selectAll (event){
-       console.log(event.target.checked);
-       const checkboxes=document.querySelectorAll(".checkboxes");
-       console.log(checkboxes);
+    //  selectAll (){
+    //   // this.setState( {
+       
+          
+    //   //   defaultChecked: true
+      
+    // });
+  //  const todos= document.querySelectorAll(".checkboxes");
+  //   // console.log(todos);
+  //   const hola=todos.map(uno=>uno);
+  //   console.log(hola);
+  
 
-     
-      for (let i = 0; i < checkboxes.length; i++) {
-            if(checkboxes[i] === "checkbox");
-              checkboxes[i].checked=1
-              //satus true
-      }
+      // }
+      // selectNothing(event){
+      //   this.setState( {
+          
+      //     defaultChecked: false
+        
+      // });
 
-      }
-      selectNothing(event){
-        const checkboxes=document.querySelectorAll(".checkboxes");
-        for (let i = 0; i < checkboxes.length; i++) {
-              if(checkboxes[i] === "checkbox");
-                checkboxes[i].checked=0
-        }
-
-      }
+      // }
   
 
 
@@ -127,17 +143,17 @@ this.selectNothing=this.selectNothing.bind(this);
           <h2>Welcome to Cities of china</h2>
           <input type="text" onChange={this.handleFilter}></input>
           </div>
-          <button type="button" class="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
-          <button type="button" class="btn btn-link nothing"onClick={this.selectNothing}>Deselecionar todo</button>
+          <button type="button" className="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
+          <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Deselecionar todo</button>
           <div className="containerBothList">
           <div className="containerMainList">
   
           {cities.filter(nameCity=>nameCity.name.includes(this.state.value))
-          .map(city=>(
+          .map((city,i)=>(
             
           
           
-            <Cities  city={city} handleInputFavs={this.handleInputFavs}/>
+            <Cities  city={city} handleInputFavs={this.handleInputFavs} i={i}/>
             
            
         ))}

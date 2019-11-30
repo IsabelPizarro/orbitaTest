@@ -27,7 +27,7 @@ this.handleFilter=this.handleFilter.bind(this);
 this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
  this.selectAll=this.selectAll.bind(this);
-// this.selectNothing=this.selectNothing.bind(this);
+ this.selectNothing=this.selectNothing.bind(this);
 // this.renderfavsInRight=this.renderfavsInRight.bind(this);s
     
     }
@@ -105,12 +105,7 @@ this.setState( {
     
     
       selectAll (){
-    //   // this.setState( {
-       
-          
-    //   //   defaultChecked: true
-      
-    // });
+ 
    const todos= document.querySelectorAll(".checkboxes");
 
   
@@ -134,15 +129,21 @@ this.setState( {
       }
 
        }
-      // selectNothing(event){
-        //igualat favoties a 00
-      //   this.setState( {
-          
-      //     defaultChecked: false
-        
-      // });
+       selectNothing(event){
+        const todos= document.querySelectorAll(".checkboxes");
 
-      // }
+  
+  
+        for (let i = 0; i < todos.length; i++) {
+              if(todos[i] === "checkbox");
+                todos[i].checked=0}
+                this.setState( {
+                  
+                  favoritesCities: []
+                
+                });
+
+       }
   
 
 

@@ -26,7 +26,7 @@ this.getCities=this.getCities.bind(this);
 this.handleFilter=this.handleFilter.bind(this);
 this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
-// this.selectAll=this.selectAll.bind(this);
+ this.selectAll=this.selectAll.bind(this);
 // this.selectNothing=this.selectNothing.bind(this);
 // this.renderfavsInRight=this.renderfavsInRight.bind(this);s
     
@@ -60,7 +60,7 @@ this.handleClearFav=this.handleClearFav.bind(this);
 
 
     
-    handleInputFavs (){
+    handleInputFavs (event){
        let target=event.target;
      if ( target.type === 'checkbox' ? target.checked : target.value){
       let englishandchinese={
@@ -78,6 +78,7 @@ this.setState( {
      }
      else {
        this.handleClearFav(event)
+       //y quitar el checked
      }
   
 
@@ -103,21 +104,38 @@ this.setState( {
     }
     
     
-    //  selectAll (){
+      selectAll (){
     //   // this.setState( {
        
           
     //   //   defaultChecked: true
       
     // });
-  //  const todos= document.querySelectorAll(".checkboxes");
-  //   // console.log(todos);
-  //   const hola=todos.map(uno=>uno);
-  //   console.log(hola);
-  
+   const todos= document.querySelectorAll(".checkboxes");
 
-      // }
+  
+  
+      for (let i = 0; i < todos.length; i++) {
+            if(todos[i] === "checkbox");
+              todos[i].checked=1
+              console.log(todos[i].id);
+              ///pinatr aquiiii
+              let ese={
+                cityChineseName:todos[i].id,
+                cityEnglishName:todos[i].value
+              }
+              this.state.favoritesCities.push(ese);
+        //otra funcion
+        this.setState( {
+                  
+          favoritesCities: this.state.favoritesCities
+        
+        });
+      }
+
+       }
       // selectNothing(event){
+        //igualat favoties a 00
       //   this.setState( {
           
       //     defaultChecked: false

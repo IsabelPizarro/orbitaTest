@@ -6,7 +6,7 @@ const FavoriteCities = props => {
 
    const{favoritesCities, handleClearFav}= props;
  
-console.log(favoritesCities);
+ console.log(favoritesCities);
 
    return (
      <div >
@@ -16,7 +16,7 @@ console.log(favoritesCities);
       
         {favoritesCities.map((cityFav, i)=>
 <li kei={i}><span>{cityFav.cityEnglishName}</span>{cityFav.cityChineseName} 
-         <button type="text" onClick={handleClearFav} className={cityFav} id={i}>x</button></li>)} 
+         <button type="text" onClick={handleClearFav} className={cityFav.cityEnglishName} id={i}>x</button></li>)} 
         
      </ul>
      </div>

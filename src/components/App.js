@@ -28,7 +28,6 @@ this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
  this.selectAll=this.selectAll.bind(this);
  this.selectNothing=this.selectNothing.bind(this);
-// this.renderfavsInRight=this.renderfavsInRight.bind(this);s
     
     }
 
@@ -43,8 +42,6 @@ this.handleClearFav=this.handleClearFav.bind(this);
         .then(response => response.json())
         .then(data => {
           this.setState({cities:data.cities})
-          
-        
            
         });
     }
@@ -61,11 +58,14 @@ this.handleClearFav=this.handleClearFav.bind(this);
 
     
     handleInputFavs (event){
-       let target=event.target;
+       debugger;
+        let target=event.target;
+      //  console.log(target);
      if ( target.type === 'checkbox' ? target.checked : target.value){
       let englishandchinese={
         cityChineseName:event.target.id,
-        cityEnglishName:event.target.value
+        cityEnglishName:event.target.value,
+        
       }
       this.state.favoritesCities.push(englishandchinese);
 //otra funcion
@@ -77,21 +77,18 @@ this.setState( {
 
      }
      else {
-       this.handleClearFav(event)
-       //y quitar el checked
-     }
-  
-
- 
-
- 
-    
       
-        
+       this.handleClearFav(event);
+       
+  
+           
     }
+  }
+
     handleClearFav(event){
-      console.log(event.target.id);
-      const todelete=event.target.id;
+      
+      const todelete=event.target.id;// 0 ,1 ,2
+
       //otra funcion
       this.state.favoritesCities.splice(todelete,1);
       this.setState( {
@@ -99,21 +96,21 @@ this.setState( {
         favoritesCities: this.state.favoritesCities
       
     });
-
-
-    }
-    
+    console.log(event.target.id);
+    const descheck=document.getElementById(event.target.className);
+    console.log(descheck);
+    descheck.checked=0
+  
+     }
     
       selectAll (){
  
    const todos= document.querySelectorAll(".checkboxes");
 
-  
-  
       for (let i = 0; i < todos.length; i++) {
             if(todos[i] === "checkbox");
               todos[i].checked=1
-              console.log(todos[i].id);
+              // console.log(todos[i].id);
               ///pinatr aquiiii
               let ese={
                 cityChineseName:todos[i].id,
@@ -163,7 +160,7 @@ this.setState( {
           <input type="text" onChange={this.handleFilter}></input>
           </div>
           <button type="button" className="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
-          <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Deselecionar todo</button>
+          <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Clear</button>
           <div className="containerBothList">
           <div className="containerMainList">
   

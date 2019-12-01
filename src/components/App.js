@@ -5,6 +5,8 @@ import React from "react";
 import Cities from "./Cities";
 import FavoritesCities from "./FavoritesCities";
 import "../App.css";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 
 
 const citiesData = "./Services/cities-of-china.json";
@@ -15,10 +17,11 @@ class App extends Component {
     super(props);
     this.state = {
       cities: [],
+      hasMore: true,
+      number:20,
       city: [],
       value:"",
-      favoritesCities:[],
-      defaultChecked:false
+      favoritesCities:[]
       
      };
 this.getCities=this.getCities.bind(this);
@@ -28,24 +31,49 @@ this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
  this.selectAll=this.selectAll.bind(this);
  this.selectNothing=this.selectNothing.bind(this);
+ this.fetchMoreData=this.fetchMoreData.bind(this);
     
     }
 
     componentDidMount() {
+      debugger;
       this.getCities();
       
     }
-
+   
+    
   
     getCities() {
       fetch(citiesData)
         .then(response => response.json())
         .then(data => {
+          // debugger;
+         
+       
+         
+          
           this.setState({cities:data.cities})
            
         });
+       
     }
+
+
+
+    fetchMoreData = () => {
+      if (this.state.cities.length >= 600) {
+        this.setState({ hasMore: false });
+        return;
+      }
+      setTimeout(() => {
+        this.setState({
+          number: this.state.number+20
+        });
+      }, 600);
+    };
+
     handleFilter(event){
+    
       
      const lookFor=event.currentTarget.value;
      this.setState({
@@ -58,13 +86,13 @@ this.handleClearFav=this.handleClearFav.bind(this);
 
     
     handleInputFavs (event){
-       debugger;
+    
         let target=event.target;
       //  console.log(target);
      if ( target.type === 'checkbox' ? target.checked : target.value){
       let englishandchinese={
-        cityChineseName:event.target.id,
-        cityEnglishName:event.target.value,
+        cityChineseName:event.target.value,
+        cityEnglishName:event.target.id,
         
       }
       this.state.favoritesCities.push(englishandchinese);
@@ -110,8 +138,7 @@ this.setState( {
       for (let i = 0; i < todos.length; i++) {
             if(todos[i] === "checkbox");
               todos[i].checked=1
-              // console.log(todos[i].id);
-              ///pinatr aquiiii
+           
               let ese={
                 cityChineseName:todos[i].id,
                 cityEnglishName:todos[i].value
@@ -146,9 +173,11 @@ this.setState( {
 
 
   render() {
-     const  {cities,favoritesCities} =this.state;
+     const  {cities,favoritesCities,number} =this.state;
+     console.log(number);
+     const citiesPag=cities.filter((n,i)=>[i]<20);
 
-    
+      const loader = <div className="loader">Loading ...</div>;
      
 
    
@@ -163,9 +192,21 @@ this.setState( {
           <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Clear</button>
           <div className="containerBothList">
           <div className="containerMainList">
+    <p>{citiesPag.length}</p>
+    <InfiniteScroll
+          dataLength={cities.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          loader={<h4>Loading...</h4>}
+          
+        
+          >
   
-          {cities.filter(nameCity=>nameCity.name.includes(this.state.value))
+          {citiesPag.filter(nameCity=>nameCity.name.includes(this.state.value))
+        
+           
           .map((city,i)=>(
+            (city === "") ? {loader}  :
             
           
           
@@ -173,6 +214,7 @@ this.setState( {
             
            
         ))}
+        </InfiniteScroll>
         
          </div>
          <div>

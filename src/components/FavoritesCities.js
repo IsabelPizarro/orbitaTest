@@ -6,7 +6,7 @@ const FavoriteCities = props => {
 
    const{favoritesCities, handleClearFav}= props;
  
- console.log(favoritesCities);
+//  console.log(favoritesCities);
 
    return (
      <div >

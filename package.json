@@ -1,5 +1,5 @@
 {
-  "name": "evaluacion-intermedia-m3",
+  "name": "orbitaTest",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
@@ -11,9 +11,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv build docs",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "publish": "react-scripts build && rm -rf docs && mv build docs"
   },
   "eslintConfig": {
     "extends": "react-app"

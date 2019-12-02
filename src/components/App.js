@@ -75,38 +75,36 @@ this.changeNumber=this.changeNumber.bind(this);
   }
 
     handleClearFav(event){
-      debugger;
-    
+  
      const todelete=event.target.id;
      const deleteItem=event.target.value;
-     console.log(todelete);
+    
      if(isNaN(todelete)){
-      console.log("no lo es");//borrar el gemelo
+    
       const elementToDelete=document.getElementById(deleteItem);
       elementToDelete.remove();
-     }else {console.log("es un numero")
-    // console.log(todelete=number);
-     this.state.favoritesCities.splice(todelete,1);//aqui hay fallo borrar por otra cosa porque l indice cambia
+     }else {
+     this.state.favoritesCities.splice(todelete,1);
       this.setState( {
             favoritesCities: this.state.favoritesCities
       
     });
     const descheck=document.getElementById(event.target.className);
-    console.log(descheck);
     descheck.checked=0}
   
      }
     
       selectAll (event){
+ 
        const allChecks= document.querySelectorAll(".checkboxes");
         for (let i = 0; i < allChecks.length; i++) {
               if(allChecks[i] === "checkbox");
                 allChecks[i].checked=1
-            
                 let emptyAll={
                   cityChineseName:allChecks[i].value,
                   cityEnglishName:allChecks[i].id
                 }
+          
                 this.state.favoritesCities.push(emptyAll);
       
         this.setState( {

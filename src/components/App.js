@@ -66,8 +66,10 @@ this.handleClearFav=this.handleClearFav.bind(this);
         return;
       }
       setTimeout(() => {
+        const newLenght= this.state.number+20;
         this.setState({
-          number: this.state.number+20
+         
+          number: newLenght
         });
       }, 600);
     };
@@ -175,7 +177,7 @@ this.setState( {
   render() {
      const  {cities,favoritesCities,number} =this.state;
      console.log(number);
-     const citiesPag=cities.filter((n,i)=>[i]<20);
+     const citiesPag=cities.filter((n,i)=>[i]<number);
 
       const loader = <div className="loader">Loading ...</div>;
      

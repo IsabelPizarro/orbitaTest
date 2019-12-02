@@ -5,7 +5,7 @@ import React from "react";
 import Cities from "./Cities";
 import FavoritesCities from "./FavoritesCities";
 import "../App.css";
-import InfiniteScroll from "react-infinite-scroll-component";
+
 
 
 
@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cities: [],
+      allCities: [],
       hasMore: true,
       number:20,
       city: [],
@@ -31,96 +31,83 @@ this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
  this.selectAll=this.selectAll.bind(this);
  this.selectNothing=this.selectNothing.bind(this);
- this.fetchMoreData=this.fetchMoreData.bind(this);
+//  this.fetchMoreData=this.fetchMoreData.bind(this);
+ this.changeNumber=this.changeNumber.bind(this);
     
     }
 
     componentDidMount() {
-      debugger;
-      this.getCities();
-      
+      this.getCities(); 
     }
    
     
-  
     getCities() {
       fetch(citiesData)
         .then(response => response.json())
         .then(data => {
-          // debugger;
-         
-       
-         
-          
-          this.setState({cities:data.cities})
-           
+          this.setState({allCities:data.cities})    
         });
        
     }
 
+    // fetchMoreData = () => {
+    //   if (this.state.allCities.length >= 600) {
+    //     this.setState({ hasMore: false });
+    //     return;
+    //   }
 
 
-    fetchMoreData = () => {
-      if (this.state.cities.length >= 600) {
-        this.setState({ hasMore: false });
-        return;
-      }
-      setTimeout(() => {
-        const newLenght= this.state.number+20;
-        this.setState({
+    // setTimeout(() => {
+    //     const newLenght= this.state.number+20;
+    //     this.setState({
          
-          number: newLenght
-        });
-      }, 600);
-    };
+    //       number: newLenght
+    //     });
+    //   }, 600);
+    // };
 
     handleFilter(event){
-    
-      
      const lookFor=event.currentTarget.value;
      this.setState({
-       value:lookFor
-       
+       value:lookFor  
      })
 
     }
-
+changeNumber(){
+  console.log(this.state.number+20);
+  console.log("hola");
+  this.setState({number:this.state.number+20})
+}
 
     
     handleInputFavs (event){
-    
-        let target=event.target;
-      //  console.log(target);
+     let target=event.target;
      if ( target.type === 'checkbox' ? target.checked : target.value){
       let englishandchinese={
         cityChineseName:event.target.value,
-        cityEnglishName:event.target.id,
-        
+        cityEnglishName:event.target.id,  
       }
-      this.state.favoritesCities.push(englishandchinese);
-//otra funcion
-this.setState( {
-          
-  favoritesCities: this.state.favoritesCities
 
-});
+      this.state.favoritesCities.push(englishandchinese);
+
+        this.setState( { 
+            favoritesCities: this.state.favoritesCities
+          });
 
      }
      else {
-      
        this.handleClearFav(event);
-       
-  
-           
     }
   }
 
     handleClearFav(event){
+      debugger;
       
       const todelete=event.target.id;// 0 ,1 ,2
+      console.log(todelete.index);
 
       //otra funcion
-      this.state.favoritesCities.splice(todelete,1);
+      this.state.favoritesCities.splice(todelete,1);//aqui hay fallo borrar por otra cosa porque l indice cambia
       this.setState( {
           
         favoritesCities: this.state.favoritesCities
@@ -175,9 +162,9 @@ this.setState( {
 
 
   render() {
-     const  {cities,favoritesCities,number} =this.state;
+     const  {allCities,favoritesCities,number} =this.state;
      console.log(number);
-     const citiesPag=cities.filter((n,i)=>[i]<number);
+     const citiesPag=allCities.filter((n,i)=>[i]<number);
 
       const loader = <div className="loader">Loading ...</div>;
      
@@ -192,17 +179,11 @@ this.setState( {
           </div>
           <button type="button" className="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
           <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Clear</button>
+          <button type="button" className="btn btn-link all" onClick={this.changeNumber}>+</button>
           <div className="containerBothList">
           <div className="containerMainList">
     <p>{citiesPag.length}</p>
-    <InfiniteScroll
-          dataLength={cities.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.hasMore}
-          loader={<h4>Loading...</h4>}
-          
-        
-          >
+  
   
           {citiesPag.filter(nameCity=>nameCity.name.includes(this.state.value))
         
@@ -216,7 +197,7 @@ this.setState( {
             
            
         ))}
-        </InfiniteScroll>
+ 
         
          </div>
          <div>

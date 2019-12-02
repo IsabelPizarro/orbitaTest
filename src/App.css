@@ -33,6 +33,7 @@
   /* align-items: center; */
 
 }
+
 .containerMainList {
   width: 400px;
 }
@@ -42,4 +43,14 @@
 .loader {
   color:brown;
   font-size: 50px;
+}
+.checkbox {
+  border-radius: 20px;
+}
+.nothing {
+ height: 30px;
+ width: 50px;
+}
+.citiesList{
+  display: block;
 }

@@ -1,16 +1,12 @@
 import  { Component } from 'react';
 import React from "react";
-
-// import {Service} from "./Services/Service";
+import Header from "./Header";
 import Cities from "./Cities";
 import FavoritesCities from "./FavoritesCities";
 import "../App.css";
 
-
-
-
 const citiesData = "./Services/cities-of-china.json";
-// let cities=[];
+
 
 class App extends Component {
   constructor(props) {
@@ -25,14 +21,12 @@ class App extends Component {
       
      };
 this.getCities=this.getCities.bind(this);
-
 this.handleFilter=this.handleFilter.bind(this);
 this.handleInputFavs=this.handleInputFavs.bind(this);
 this.handleClearFav=this.handleClearFav.bind(this);
- this.selectAll=this.selectAll.bind(this);
- this.selectNothing=this.selectNothing.bind(this);
-//  this.fetchMoreData=this.fetchMoreData.bind(this);
- this.changeNumber=this.changeNumber.bind(this);
+this.selectAll=this.selectAll.bind(this);
+this.selectNothing=this.selectNothing.bind(this);
+this.changeNumber=this.changeNumber.bind(this);
     
     }
 
@@ -50,22 +44,6 @@ this.handleClearFav=this.handleClearFav.bind(this);
        
     }
 
-    // fetchMoreData = () => {
-    //   if (this.state.allCities.length >= 600) {
-    //     this.setState({ hasMore: false });
-    //     return;
-    //   }
-
-
-    // setTimeout(() => {
-    //     const newLenght= this.state.number+20;
-    //     this.setState({
-         
-    //       number: newLenght
-    //     });
-    //   }, 600);
-    // };
-
     handleFilter(event){
      const lookFor=event.currentTarget.value;
      this.setState({
@@ -73,11 +51,10 @@ this.handleClearFav=this.handleClearFav.bind(this);
      })
 
     }
-changeNumber(){
-  console.log(this.state.number+20);
-  console.log("hola");
-  this.setState({number:this.state.number+20})
-}
+
+    changeNumber(){
+     this.setState({number:this.state.number+20})
+    }
 
     
     handleInputFavs (event){
@@ -87,13 +64,10 @@ changeNumber(){
         cityChineseName:event.target.value,
         cityEnglishName:event.target.id,  
       }
-
       this.state.favoritesCities.push(englishandchinese);
-
-        this.setState( { 
+          this.setState( { 
             favoritesCities: this.state.favoritesCities
           });
-
      }
      else {
        this.handleClearFav(event);
@@ -101,59 +75,43 @@ changeNumber(){
   }
 
     handleClearFav(event){
-      debugger;
-      
-      const todelete=event.target.id;// 0 ,1 ,2
-      console.log(todelete.index);
-
-      //otra funcion
-      this.state.favoritesCities.splice(todelete,1);//aqui hay fallo borrar por otra cosa porque l indice cambia
+     const todelete=event.target.id;// 
+     this.state.favoritesCities.splice(todelete,1);//aqui hay fallo borrar por otra cosa porque l indice cambia
       this.setState( {
-          
-        favoritesCities: this.state.favoritesCities
+            favoritesCities: this.state.favoritesCities
       
     });
-    console.log(event.target.id);
     const descheck=document.getElementById(event.target.className);
     console.log(descheck);
     descheck.checked=0
   
      }
     
-      selectAll (){
- 
-   const todos= document.querySelectorAll(".checkboxes");
-
-      for (let i = 0; i < todos.length; i++) {
-            if(todos[i] === "checkbox");
-              todos[i].checked=1
-           
-              let ese={
-                cityChineseName:todos[i].id,
-                cityEnglishName:todos[i].value
-              }
-              this.state.favoritesCities.push(ese);
-        //otra funcion
+      selectAll (event){
+       const allChecks= document.querySelectorAll(".checkboxes");
+        for (let i = 0; i < allChecks.length; i++) {
+              if(allChecks[i] === "checkbox");
+                allChecks[i].checked=1
+            
+                let emptyAll={
+                  cityChineseName:allChecks[i].value,
+                  cityEnglishName:allChecks[i].id
+                }
+                this.state.favoritesCities.push(emptyAll);
+      
         this.setState( {
-                  
-          favoritesCities: this.state.favoritesCities
-        
+               favoritesCities: this.state.favoritesCities
         });
       }
 
        }
-       selectNothing(event){
+       selectNothing(){
         const todos= document.querySelectorAll(".checkboxes");
-
-  
-  
-        for (let i = 0; i < todos.length; i++) {
+           for (let i = 0; i < todos.length; i++) {
               if(todos[i] === "checkbox");
                 todos[i].checked=0}
                 this.setState( {
-                  
                   favoritesCities: []
-                
                 });
 
        }
@@ -162,49 +120,35 @@ changeNumber(){
 
 
   render() {
-     const  {allCities,favoritesCities,number} =this.state;
-     console.log(number);
-     const citiesPag=allCities.filter((n,i)=>[i]<number);
+      const  {allCities,favoritesCities,number} =this.state;
+      const citiesPag=allCities.filter((n,i)=>[i]<number);
+      const loader = <div className="loader">Loading<div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div></div>;
 
-      const loader = <div className="loader">Loading ...</div>;
-     
-
-   
     return (
       <div className="App">
-        <div className="App-header">
-    
-          <h2>Welcome to Cities of china</h2>
+        <Header/>
+        <div>
           <input type="text" onChange={this.handleFilter}></input>
-          </div>
-          <button type="button" className="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
-          <button type="button" className="btn btn-link nothing"onClick={this.selectNothing}>Clear</button>
-          <button type="button" className="btn btn-link all" onClick={this.changeNumber}>+</button>
+
+          
+      
           <div className="containerBothList">
           <div className="containerMainList">
-    <p>{citiesPag.length}</p>
-  
-  
-          {citiesPag.filter(nameCity=>nameCity.name.includes(this.state.value))
-        
-           
-          .map((city,i)=>(
+    <p><span className="badge badge-primary badge-pill">{citiesPag.length}</span></p>
+    <button type="button" className="btn btn-link all" onClick={this.selectAll}>Seleccionar Todo</button>
+          {citiesPag.filter(nameCity=>nameCity.name.toLowerCase().includes(this.state.value.toLowerCase()))
+           .map((city,i)=>(
             (city === "") ? {loader}  :
-            
-          
-          
-            <Cities  city={city} handleInputFavs={this.handleInputFavs} i={i}/>
-            
-           
+            <Cities  city={city} handleInputFavs={this.handleInputFavs} changeNumber={this.changeNumber} i={i}/> 
         ))}
- 
-        
-         </div>
-         <div>
-        
-        
-         <FavoritesCities  favoritesCities={favoritesCities} handleClearFav={this.handleClearFav}/>
-         
+
+            <button type="button" className="btn btn-primary" onClick={this.changeNumber}>Next Page</button>
+            </div>
+            
+          
+         <FavoritesCities  favoritesCities={favoritesCities} selectNothing={this.selectNothing} handleClearFav={this.handleClearFav}/>
          </div>
          </div>
       </div>

@@ -18,7 +18,7 @@ const FavoriteCities = props => {
      <ul className="ulFavoritesCities">
       
         {favoritesCities.map((cityFav, i)=>
-<li kei={i} className="list-group-item"><h6>{cityFav.cityEnglishName}</h6><h5>{cityFav.cityChineseName}</h5>
+<li kei={i} className="list-group-item" id={cityFav.cityChineseName}><h6>{cityFav.cityEnglishName}</h6><h5>{cityFav.cityChineseName}</h5>
          <button type="text" onClick={handleClearFav} className={cityFav.cityEnglishName} id={i}>x</button></li>)} 
         
      </ul>

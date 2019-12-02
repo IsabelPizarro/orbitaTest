@@ -75,7 +75,17 @@ this.changeNumber=this.changeNumber.bind(this);
   }
 
     handleClearFav(event){
-     const todelete=event.target.id;// 
+      debugger;
+    
+     const todelete=event.target.id;
+     const deleteItem=event.target.value;
+     console.log(todelete);
+     if(isNaN(todelete)){
+      console.log("no lo es");//borrar el gemelo
+      const elementToDelete=document.getElementById(deleteItem);
+      elementToDelete.remove();
+     }else {console.log("es un numero")
+    // console.log(todelete=number);
      this.state.favoritesCities.splice(todelete,1);//aqui hay fallo borrar por otra cosa porque l indice cambia
       this.setState( {
             favoritesCities: this.state.favoritesCities
@@ -83,7 +93,7 @@ this.changeNumber=this.changeNumber.bind(this);
     });
     const descheck=document.getElementById(event.target.className);
     console.log(descheck);
-    descheck.checked=0
+    descheck.checked=0}
   
      }
     

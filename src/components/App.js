@@ -55,6 +55,11 @@ this.changeNumber=this.changeNumber.bind(this);
     changeNumber(){
      this.setState({number:this.state.number+20})
     }
+    scroll(){
+      window.addEventListener("scroll",()=>{
+        console.log("working");
+      })
+    }
 
     
     handleInputFavs (event){
@@ -95,21 +100,36 @@ this.changeNumber=this.changeNumber.bind(this);
      }
     
       selectAll (event){
+
+        this.setState(prevState => {
+          return {
+            favoritesCities: {
+              ...prevState.favoritesCities,
+              cityChineseName: []
+            }
+          };
+        });
+      
+      
+
+        
  
        const allChecks= document.querySelectorAll(".checkboxes");
         for (let i = 0; i < allChecks.length; i++) {
               if(allChecks[i] === "checkbox");
                 allChecks[i].checked=1
-                let emptyAll={
+    
+                let fillAll={
                   cityChineseName:allChecks[i].value,
                   cityEnglishName:allChecks[i].id
                 }
-          
-                this.state.favoritesCities.push(emptyAll);
+                
+                this.state.favoritesCities.push(fillAll);
       
         this.setState( {
                favoritesCities: this.state.favoritesCities
         });
+        console.log(this.state.favoritesCities);
       }
 
        }
@@ -154,8 +174,6 @@ this.changeNumber=this.changeNumber.bind(this);
 
             <button type="button" className="btn btn-primary" onClick={this.changeNumber}>Next Page</button>
             </div>
-            
-          
          <FavoritesCities  favoritesCities={favoritesCities} selectNothing={this.selectNothing} handleClearFav={this.handleClearFav}/>
          </div>
          </div>

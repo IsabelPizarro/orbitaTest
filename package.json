@@ -1,5 +1,5 @@
 {
-  "name": "orbitaTest",
+  "name": "orbit",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "publish": "react-scripts build && rm -rf docs && mv build docs"
+    "publish": "react-scripts public"
   },
   "eslintConfig": {
     "extends": "react-app"
